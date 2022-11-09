@@ -16,7 +16,14 @@ fn main() {
           eprintln!("Problem parsing arguments: {err}");
           process::exit(1);
         });
-        taro::run_grep(grep_config)
+        taro::grep::run_grep(grep_config)
+      },
+      Functions::Find => {
+        let find_config = FindConfig::build(&args).unwrap_or_else(|err| {
+          eprintln!("Problem parsing arguments: {err}");
+          process::exit(1);
+        });
+        taro::find::run_find(find_config)
       }
   } {
     eprintln!("Application error: {e}");

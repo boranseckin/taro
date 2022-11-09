@@ -1,4 +1,8 @@
-pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+use std::{error::Error, fs};
+
+use crate::GrepConfig;
+
+fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
   let mut results = Vec::new();
 
   for line in contents.lines() {
@@ -10,7 +14,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
   results
 }
 
-pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
   let query = query.to_lowercase();
 
   let mut results = Vec::new();
@@ -22,6 +26,22 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
   }
 
   results
+}
+
+pub fn run_grep(config: GrepConfig) -> Result<(), Box<dyn Error>> {
+  let contents = fs::read_to_string(config.file_path)?;
+
+  let results = if config.ignore_case {
+    search_case_insensitive(&config.query, &contents)
+  } else {
+    search(&config.query, &contents)
+  };
+
+  for line in results {
+    println!("{line}");
+  }
+
+  Ok(())
 }
 
 #[cfg(test)]
