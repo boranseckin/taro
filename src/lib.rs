@@ -1,3 +1,10 @@
+//! Wrapper for multiple quality of life command-line tools.
+//! 
+//! Includes:
+//! - [find]
+//! - [gitignore]
+//! - [grep]
+
 use std::{ str, vec };
 use std::{ env, path::Path };
 
@@ -6,6 +13,7 @@ pub use crate::modules::grep;
 pub use crate::modules::find;
 pub use crate::modules::gitignore;
 
+/// Possible functions that can be run using the command line interface.
 pub enum Functions {
   Grep,
   Find,
@@ -31,13 +39,18 @@ impl Config {
   }
 }
 
+/// Required configuration for [grep].
 pub struct GrepConfig {
+  /// Substring to query for.
   pub query: String,
+  /// Path of the file to query.
   pub file_path: String,
+  /// Ignore-case flag.
   pub ignore_case: bool,
 }
 
 impl GrepConfig {
+  /// Builds the [GrepConfig] from command-line arguments
   pub fn build(args: &[String]) -> Result<GrepConfig, &'static str> {
     if args.len() < 4 {
       return Err("not enough argument for grep");
@@ -52,13 +65,18 @@ impl GrepConfig {
   }
 }
 
+/// Required configuration for [find].
 pub struct FindConfig<'a> {
+  /// Path of the folder to start the search.
   pub path: &'a Path,
+  /// Substring to query for.
   pub query: String,
+  /// Folder depth value for the serach.
   pub depth: usize,
 }
 
 impl<'a> FindConfig<'a> {
+  /// Builds the [FindConfig] from command-line arguments
   pub fn build(args: &[String]) -> Result<FindConfig, &'static str> {
     if args.len() < 4 {
       return Err("not enough argument for find");
@@ -82,12 +100,16 @@ impl<'a> FindConfig<'a> {
   }
 }
 
+/// Required configuration for [gitignore].
 pub struct GitIgnoreConfig {
+  /// Operating Systems, IDEs, Languages to include in the gitignore.
   pub include: Vec<String>,
+  /// Optional output path to save the generated gitignore.
   pub output: Option<String>,
 }
 
 impl GitIgnoreConfig {
+  /// Builds the [GitIgnoreConfig] from command-line arguments
   pub fn build(args: &[String]) -> Result<GitIgnoreConfig, &'static str> {
     if args.len() < 3 {
       return Err("not enough argument for gitignore");

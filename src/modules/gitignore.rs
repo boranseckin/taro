@@ -1,3 +1,9 @@
+//! Generates a gitignore files tailored to the technology specified.
+//! 
+//! Uses [Toptal's gitignore.io](https://gitignore.io/) service.
+//! 
+//! The output file's path can be specified. If no output is specified, it will print to the standard output instead.
+
 use std::{ error::Error, fs::File, io::Write };
 
 use crate::GitIgnoreConfig;
@@ -19,6 +25,7 @@ fn fetch(url: String) -> Result<String, Box<dyn Error>> {
   Ok(res)
 }
 
+/// Runs the gitignore function using the [GitIgnoreConfig] provided.
 pub fn run_gitignore(config: GitIgnoreConfig) -> Result<(), Box<dyn Error>> {
   let url = create_url(&config.include);
  

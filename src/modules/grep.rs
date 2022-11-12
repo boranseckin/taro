@@ -1,3 +1,7 @@
+//! Finds all the lines in a file that match the substring query provided.
+//! 
+//! The search can be performed case-sensitively (default behaviour) or case-insensitively
+
 use std::{error::Error, fs};
 
 use crate::GrepConfig;
@@ -28,6 +32,7 @@ fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
   results
 }
 
+/// Runs the grep function using the [GrepConfig] provided.
 pub fn run_grep(config: GrepConfig) -> Result<(), Box<dyn Error>> {
   let contents = fs::read_to_string(config.file_path)?;
 

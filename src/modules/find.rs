@@ -1,3 +1,7 @@
+//! Finds all the files recursively in a directory that matches the substring query provided.
+//! 
+//! The depth (10 by default) of the search tree can be specified.
+
 use std::{ path::Path, fs, error::Error };
 
 use crate::FindConfig;
@@ -28,6 +32,7 @@ fn traverse(path: &Path, query: &str, depth: usize, i: usize) -> i32 {
   found_count
 }
 
+/// Runs the find function using the [FindConfig] provided.
 pub fn run_find(config: FindConfig) -> Result<(), Box<dyn Error>> {
   println!("Searching for {} in {:?}", config.query, config.path);
 
