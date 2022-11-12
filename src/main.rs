@@ -24,6 +24,13 @@ fn main() {
           process::exit(1);
         });
         taro::find::run_find(find_config)
+      },
+      Functions::GitIgnore => {
+        let gitignore_config = GitIgnoreConfig::build(&args).unwrap_or_else(|err| {
+          eprintln!("Problem parsing arguments: {err}");
+          process::exit(1);
+        });
+        taro::gitignore::run_gitignore(gitignore_config)
       }
   } {
     eprintln!("Application error: {e}");

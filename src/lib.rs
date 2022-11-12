@@ -1,12 +1,15 @@
+use std::{ str, vec };
 use std::{ env, path::Path };
 
 mod modules;
 pub use crate::modules::grep;
 pub use crate::modules::find;
+pub use crate::modules::gitignore;
 
 pub enum Functions {
   Grep,
   Find,
+  GitIgnore
 }
 
 pub struct Config {
@@ -22,6 +25,7 @@ impl Config {
     match args[1].as_str() {
       "grep" => Ok(Config { function: Functions::Grep }),
       "find" => Ok(Config { function: Functions::Find }),
+      "gitignore" => Ok(Config { function: Functions::GitIgnore }),
       _ => Err("unknown function")
     }
   }
@@ -75,5 +79,28 @@ impl<'a> FindConfig<'a> {
     };
 
     Ok(FindConfig { path, query, depth })
+  }
+}
+
+pub struct GitIgnoreConfig {
+  pub include: Vec<String>,
+  pub output: Option<String>,
+}
+
+impl GitIgnoreConfig {
+  pub fn build(args: &[String]) -> Result<GitIgnoreConfig, &'static str> {
+    if args.len() < 3 {
+      return Err("not enough argument for gitignore");
+    }
+
+    let mut include = vec![String::new(); args.len() - 2];
+
+    for (i, item) in args.iter().skip(2).enumerate() {
+      include[i] = item.clone();
+    }
+
+    let output = env::var("OUTPUT").ok();
+
+    Ok(GitIgnoreConfig { include, output })
   }
 }
