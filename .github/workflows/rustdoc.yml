@@ -23,11 +23,16 @@ jobs:
 
     - name: Build Documentation
       run: cargo doc --all --no-deps
+      
+    - name: Add index.html
+      run: rm -rf ./doc\
+           echo "<meta http-equiv=\"refresh\" content=\"0; url=build_wheel\">" > target/doc/index.html\
+           cp -r target/doc ./docs
 
     - name: Deploy Docs
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: ./target/doc
+        publish_dir: ./docs
         force_orphan: true
