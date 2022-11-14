@@ -6,7 +6,7 @@ edition = "2021"
 authors = ["Boran Seckin <boran@boranseckin.com>"]
 repository = "https://github.com/boranseckin/taro"
 license = "MIT"
-keywords = ["taro", "cli", "cli-tool", "grep", "search", "find", "gitignore"]
+keywords = ["cli", "grep", "search", "find", "gitignore"]
 categories = ["command-line-utilities", "text-processing"]
 
 [[bin]]
