@@ -1,6 +1,6 @@
 use std::{ env, process };
 
-use taro::*;
+use taro_cli::*;
 
 fn main() {
   let args: Vec<String> = env::args().collect();
@@ -16,21 +16,21 @@ fn main() {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
       });
-      taro::grep::run_grep(grep_config)
+      taro_cli::grep::run_grep(grep_config)
     },
     Functions::Find => {
       let find_config = FindConfig::build(&args).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
       });
-      taro::find::run_find(find_config)
+      taro_cli::find::run_find(find_config)
     },
     Functions::GitIgnore => {
       let gitignore_config = GitIgnoreConfig::build(&args).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
       });
-      taro::gitignore::run_gitignore(gitignore_config)
+      taro_cli::gitignore::run_gitignore(gitignore_config)
     }
   } {
     eprintln!("Application error: {e}");
